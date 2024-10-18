@@ -26,7 +26,7 @@ namespace ChallengeQu
                 char[] verticalWord = new char[rowsCount];
                 for (int row = 0; row < rowsCount; row++)
                 {
-                    verticalWord[row] = matrixList[row][col];
+                    //verticalWord[row] = matrixList[row][col];
                 }
                 ((List<string>)Columns).Add(new string(verticalWord));
             }

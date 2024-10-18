@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using ChallengeQu;
+
+Console.WriteLine("WordFinder starts");
 
 var matrix = new List<string>()
 {
@@ -11,3 +13,19 @@ var matrix = new List<string>()
 };
 
 var wordFinder = new WordFinder(matrix);
+
+var wordstream = new List<string>()
+{
+    "cold",
+    "wind",
+    "snow",
+    "chill",
+};
+
+var results = wordFinder.Find(wordstream);
+
+foreach (var w in results)
+    Console.WriteLine(w);
+
+Console.WriteLine("WordFinder ends");
+Console.ReadLine();
