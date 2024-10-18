@@ -8,16 +8,16 @@ namespace ChallengeQu.Tests
     [TestFixture]
     public class WordFinderTests
     {
-        private WordFinder _wordFinder;
-        private Mock<StringMatrix> _mockStringMatrix;
+        private WordFinder _wordFinder = new WordFinder(new List<string>());
+        private Mock<StringMatrix> _mockStringMatrix = new Mock<StringMatrix>(new List<string>());
 
         [SetUp]
         public void SetUp()
         {
-            // Mock the StringMatrix to isolate WordFinder
+            // Mock the StringMatrix 
             _mockStringMatrix = new Mock<StringMatrix>(new List<string>());
 
-            // Inject the mocked StringMatrix into WordFinder
+            // Mock the WordFinder
             _wordFinder = new WordFinder(new List<string>());
         }
 
