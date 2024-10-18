@@ -41,7 +41,7 @@ public class WordFinder
     /// <returns>An IEnumerable of the top 10 words found in the matrix, ordered by frequency.</returns>
     private IEnumerable<string> FindTopTen(IEnumerable<string> wordstream)
     {
-        return StringMatrix.FindAppeareances(wordstream)
+        return StringMatrix.FindMatches(wordstream)
                             .OrderByDescending(x => x.Value)
                             .Take(10)
                             .Select(x => x.Key);

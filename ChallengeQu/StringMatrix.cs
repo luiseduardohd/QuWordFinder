@@ -60,7 +60,7 @@ public class StringMatrix
     /// </summary>
     /// <param name="wordstream">A stream of words to search for in the matrix.</param>
     /// <returns>A dictionary where keys are words found in the matrix and values are their counts.</returns>
-    public Dictionary<string, int> FindAppeareances(IEnumerable<string> wordstream)
+    public Dictionary<string, int> FindMatches(IEnumerable<string> wordstream)
     {
         var wordSet = new HashSet<string>(wordstream);
         var wordCount = new Dictionary<string, int>();
