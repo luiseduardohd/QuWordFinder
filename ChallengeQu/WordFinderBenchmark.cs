@@ -123,11 +123,11 @@ public class WordFinderBenchmark
         var result = wordFinder.Find(_wordStream);
     }
 
-    // WordFinder Version 3 - Parallelized Implementation
+    // WordFinder Version 6 - Parallelized Implementation
     [Benchmark]
-    public void WordFinderV5()
+    public void WordFinderV6()
     {
-        var wordFinder = new WordFinderV5(_matrix);
+        var wordFinder = new WordFinderV6(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
 }

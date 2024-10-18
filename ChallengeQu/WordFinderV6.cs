@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-public class WordFinder2
+public class WordFinderV6
 {
     private readonly List<string> _horizontalLines;
     private readonly List<string> _verticalLines;
@@ -13,7 +15,7 @@ public class WordFinder2
     /// Constructor that receives a list of strings as the matrix.
     /// </summary>
     /// <param name="matrix">The matrix to search within.</param>
-    public WordFinder2(IEnumerable<string> matrix)
+    public WordFinderV6(IEnumerable<string> matrix)
     {
         var matrixList = matrix.ToList();
         _rows = matrixList.Count;
@@ -42,22 +44,18 @@ public class WordFinder2
     /// <returns>An IEnumerable of the top 10 most repeated words.</returns>
     public IEnumerable<string> Find(IEnumerable<string> wordstream)
     {
-        var wordSet = new HashSet<string>(wordstream);
-        var wordCount = new Dictionary<string, int>();
+        //var wordSet = new HashSet<string>(wordstream);
+        var wordCount = new ConcurrentDictionary<string, int>();
 
-        // For each word, search in both the horizontal and vertical lines
-        foreach (var word in wordSet)
+        // Parallel search for each word in both horizontal and vertical lines
+        Parallel.ForEach(wordstream, word =>
         {
             bool found = SearchWordInLines(word, _horizontalLines) || SearchWordInLines(word, _verticalLines);
-
             if (found)
             {
-                if (!wordCount.ContainsKey(word))
-                {
-                    wordCount[word] = 1;
-                }
+                wordCount.AddOrUpdate(word, 1, (key, oldValue) => oldValue + 1);
             }
-        }
+        });
 
         // Return the top 10 most repeated words
         return wordCount.OrderByDescending(x => x.Value).Take(10).Select(x => x.Key);
@@ -71,13 +69,6 @@ public class WordFinder2
     /// <returns>True if the word is found in any line, otherwise false.</returns>
     private bool SearchWordInLines(string word, List<string> lines)
     {
-        foreach (var line in lines)
-        {
-            if (line.Contains(word)) // Fast string search using built-in method
-            {
-                return true;
-            }
-        }
-        return false;
+        return lines.AsParallel().Any(line => line.Contains(word));
     }
 }
