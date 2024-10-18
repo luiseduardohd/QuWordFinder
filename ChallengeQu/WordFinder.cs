@@ -2,75 +2,70 @@
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>
-/// WordFinder class that finds the most frequent sequences in a matrix of type T.
-/// </summary>
 public class WordFinder
 {
-    private readonly Matrix<char> _matrix;
+    private readonly List<string> _horizontalLines;
+    private readonly List<string> _verticalLines;
+    private readonly int _rows;
+    private readonly int _cols;
 
-    /// <summary>
-    /// Initializes a new instance of the WordFinder class using an IEnumerable of strings.
-    /// Each string is treated as a row of the matrix where characters are stored as individual elements.
-    /// </summary>
-    /// <param name="matrix">The character matrix where words will be searched for.</param>
+    // Constructor that receives a list of strings as the matrix
     public WordFinder(IEnumerable<string> matrix)
     {
-        // Initialize the Matrix<char> using the provided string matrix
-        _matrix = new Matrix<char>(matrix);
+        var matrixList = matrix.ToList();
+        _rows = matrixList.Count;
+        _cols = matrixList[0].Length;
+
+        // Preprocess matrix into horizontal and vertical strings
+        _horizontalLines = matrixList;
+        _verticalLines = new List<string>();
+
+        // Convert columns into vertical strings
+        for (int col = 0; col < _cols; col++)
+        {
+            char[] verticalWord = new char[_rows];
+            for (int row = 0; row < _rows; row++)
+            {
+                verticalWord[row] = matrixList[row][col];
+            }
+            _verticalLines.Add(new string(verticalWord));
+        }
     }
 
-    /// <summary>
-    /// Finds the top 10 words from the given wordstream that exist in the matrix.
-    /// </summary>
-    /// <param name="wordstream">The stream of words to search for in the matrix.</param>
-    /// <returns>An IEnumerable of the top 10 words found in the matrix, ordered by frequency.</returns>
+    // Method to find top 10 most repeated words in the matrix
     public IEnumerable<string> Find(IEnumerable<string> wordstream)
     {
-        // Return the top 10 words found, ordered by frequency
-        return FindTopTenMatches(wordstream);
-    }
+        var wordSet = new HashSet<string>(wordstream);
+        var wordCount = new Dictionary<string, int>();
 
-    /// <summary>
-    /// Finds and returns the top 10 words from the wordstream that match the sequences in the matrix.
-    /// </summary>
-    /// <param name="wordstream">The stream of words to search for in the matrix.</param>
-    /// <returns>An IEnumerable of the top 10 matching words found in the matrix, ordered by frequency.</returns>
-    public IEnumerable<string> FindTopTenMatches(IEnumerable<string> wordstream)
-    {
-        // Return the top 10 words found, ordered by frequency
-        return FindMatchesCount(wordstream)
-               .OrderByDescending(word => word.Value)
-               .Take(10)
-               .Select(word => word.Key);
-    }
-
-    /// <summary>
-    /// Searches the matrix for matches from the wordstream and returns a dictionary with the count of words found.
-    /// </summary>
-    /// <param name="wordstream">The stream of words to search for in the matrix.</param>
-    /// <returns>A dictionary where the keys are the words found and the values are their counts (frequency of occurrences).</returns>
-    public Dictionary<string, int> FindMatchesCount(IEnumerable<string> wordstream)
-    {
-        // Dictionary to store the count of found words
-        var foundWordsCount = new Dictionary<string, int>();
-
-        // Use a HashSet to avoid duplicate word searches
-        var uniqueWords = new HashSet<string>(wordstream);
-
-        // Search for each word in the matrix
-        foreach (var word in uniqueWords)
+        // For each word, search in both the horizontal and vertical lines
+        foreach (var word in wordSet)
         {
-            if (_matrix.ContainsSequence(word))
+            bool found = SearchWordInLines(word, _horizontalLines) || SearchWordInLines(word, _verticalLines);
+
+            if (found)
             {
-                if (!foundWordsCount.ContainsKey(word))
+                if (!wordCount.ContainsKey(word))
                 {
-                    foundWordsCount[word] = 1;
+                    wordCount[word] = 1;
                 }
             }
         }
 
-        // Return the words found, ordered by frequency
-        return foundWordsCount;
+        // Return the top 10 most repeated words
+        return wordCount.OrderByDescending(x => x.Value).Take(10).Select(x => x.Key);
+    }
+
+    // Optimized search method that checks for word in a list of lines (horizontal or vertical)
+    private bool SearchWordInLines(string word, List<string> lines)
+    {
+        foreach (var line in lines)
+        {
+            if (line.Contains(word)) // Fast string search using built-in method
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
