@@ -21,12 +21,12 @@ public class Matrix<T>
     /// <summary>
     /// The number of rows in the matrix.
     /// </summary>
-    public int RowCount { get; }
+    private int _rowsCount { get; }
 
     /// <summary>
     /// The number of columns in the matrix.
     /// </summary>
-    public int ColCount { get; }
+    private int _columnsCount { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Matrix{T}"/> class.
@@ -36,15 +36,15 @@ public class Matrix<T>
     public Matrix(IEnumerable<IEnumerable<T>> data)
     {
         _rows = data.Select(row => row.ToArray()).ToList();
-        RowCount = _rows.Count;
-        ColCount = _rows[0].Length;
+        _rowsCount = _rows.Count;
+        _columnsCount = _rows[0].Length;
 
         // Preprocess and store the vertical columns (transpose of rows)
         _columns = new List<T[]>();
-        for (int col = 0; col < ColCount; col++)
+        for (int col = 0; col < _columnsCount; col++)
         {
-            T[] column = new T[RowCount];
-            for (int row = 0; row < RowCount; row++)
+            T[] column = new T[_rowsCount];
+            for (int row = 0; row < _rowsCount; row++)
             {
                 column[row] = _rows[row][col];
             }
@@ -91,7 +91,7 @@ public class Matrix<T>
     {
         foreach (var line in lines)
         {
-            if (ContainsSequence(line, sequence))
+            if (ContainsSubsequence(line, sequence))
             {
                 return true;
             }
@@ -105,24 +105,12 @@ public class Matrix<T>
     /// <param name="line">The line of type T.</param>
     /// <param name="sequence">The sequence to search for in the line.</param>
     /// <returns>True if the sequence is found, otherwise false.</returns>
-    private bool ContainsSequence(T[] line, T[] sequence)
+    private bool ContainsSubsequence(T[] line, T[] sequence)
     {
-        for (int i = 0; i <= line.Length - sequence.Length; i++)
-        {
-            bool match = true;
-            for (int j = 0; j < sequence.Length; j++)
-            {
-                if (!line[i + j].Equals(sequence[j]))
-                {
-                    match = false;
-                    break;
-                }
-            }
-            if (match)
-            {
-                return true;
-            }
-        }
-        return false;
+        // We check all possible subsequences of length equal to 'sequence'
+        return line
+            .Select((_, index) => line.Skip(index).Take(sequence.Length))
+            .Where(subsequence => subsequence.Count() == sequence.Length)
+            .Any(subsequence => subsequence.SequenceEqual(sequence));
     }
 }
