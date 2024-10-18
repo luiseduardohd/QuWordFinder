@@ -53,24 +53,6 @@ public class Matrix<T>
     }
 
     /// <summary>
-    /// Gets the horizontal lines (rows) of the matrix.
-    /// </summary>
-    /// <returns>The list of horizontal rows.</returns>
-    public List<T[]> GetRows()
-    {
-        return _rows;
-    }
-
-    /// <summary>
-    /// Gets the vertical lines (columns) of the matrix.
-    /// </summary>
-    /// <returns>The list of vertical columns.</returns>
-    public List<T[]> GetColumns()
-    {
-        return _columns;
-    }
-
-    /// <summary>
     /// Checks if a sequence is present in any row or column of the matrix.
     /// </summary>
     /// <param name="sequence">The sequence of type T to search for.</param>

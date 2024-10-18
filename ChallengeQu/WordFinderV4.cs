@@ -7,7 +7,7 @@ using System.Linq;
 /// </summary>
 public class WordFinderV4
 {
-    private readonly Matrix<char> _matrix;
+    private readonly MatrixV4<char> _matrix;
 
     /// <summary>
     /// Initializes a new instance of the WordFinder class using an IEnumerable of strings.
@@ -17,7 +17,7 @@ public class WordFinderV4
     public WordFinderV4(IEnumerable<string> matrix)
     {
         // Initialize the Matrix<char> using the provided string matrix
-        _matrix = new Matrix<char>(matrix);
+        _matrix = new MatrixV4<char>(matrix);
     }
 
     /// <summary>

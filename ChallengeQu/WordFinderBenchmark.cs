@@ -22,7 +22,8 @@ public class WordFinderBenchmark
         Console.WriteLine();
 
         // Generate a wordstream with at least 1000 random strings, with lengths from 1 to 64
-        _wordStream = GenerateRandomWordStream(10000, 1, 64);
+        //_wordStream = GenerateRandomWordStream(10000, 1, 64);
+        _wordStream = GenerateRandomWordStream(1000, 1, 64);
         /*
         Console.WriteLine("wordStream:");
         foreach (var w in _wordStream)

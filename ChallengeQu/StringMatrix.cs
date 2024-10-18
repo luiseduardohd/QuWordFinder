@@ -2,25 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class StringMatrix 
+/// <summary>
+/// The StringMatrix class represents a matrix of strings where each string is treated as a row.
+/// It provides functionality to search for words in both horizontal and vertical lines of the matrix.
+/// </summary>
+public class StringMatrix
 {
+    /// <summary>
+    /// Stores the horizontal rows of the matrix.
+    /// </summary>
     public readonly IEnumerable<string> Rows;
+
+    /// <summary>
+    /// Stores the vertical columns of the matrix.
+    /// </summary>
     public readonly IEnumerable<string> Columns;
+
+    /// <summary>
+    /// The number of rows in the matrix.
+    /// </summary>
     public readonly int rowsCount;
+
+    /// <summary>
+    /// The number of columns in the matrix.
+    /// </summary>
     public readonly int columnsCount;
 
-    // Constructor that receives a list of strings as the matrix
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StringMatrix"/> class.
+    /// Preprocesses the matrix into horizontal and vertical lines.
+    /// </summary>
+    /// <param name="matrix">The input matrix as an IEnumerable of strings where each string represents a row.</param>
     public StringMatrix(IEnumerable<string> matrix)
     {
         var matrixList = matrix.ToList();
         rowsCount = matrixList.Count;
         columnsCount = matrixList[0].Length;
 
-        // Preprocess matrix into horizontal and vertical strings
+        // Store the rows
         Rows = matrixList;
-        Columns = new List<string>();
 
-        // Convert columns into vertical strings
+        // Preprocess the columns
+        Columns = new List<string>();
         for (int col = 0; col < columnsCount; col++)
         {
             char[] verticalWord = new char[rowsCount];
@@ -32,6 +55,11 @@ public class StringMatrix
         }
     }
 
+    /// <summary>
+    /// Finds the number of appearances of words from the wordstream in the matrix (both horizontally and vertically).
+    /// </summary>
+    /// <param name="wordstream">A stream of words to search for in the matrix.</param>
+    /// <returns>A dictionary where keys are words found in the matrix and values are their counts.</returns>
     public Dictionary<string, int> FindAppeareances(IEnumerable<string> wordstream)
     {
         var wordSet = new HashSet<string>(wordstream);
@@ -51,12 +79,16 @@ public class StringMatrix
             }
         }
 
-        // Return the top 10 most repeated words
+        // Return the dictionary of word counts
         return wordCount;
     }
 
-
-    // Optimized search method that checks for word in a list of lines (horizontal or vertical)
+    /// <summary>
+    /// Searches for a word in a list of lines (either horizontal or vertical).
+    /// </summary>
+    /// <param name="word">The word to search for.</param>
+    /// <param name="lines">The list of lines (either horizontal or vertical) where the word will be searched for.</param>
+    /// <returns>True if the word is found in any of the lines, otherwise false.</returns>
     private bool FindInLines(string word, IEnumerable<string> lines)
     {
         foreach (var line in lines)
