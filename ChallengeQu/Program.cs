@@ -23,7 +23,7 @@
  *              The solution includes Unit tests and Benchmarks in order to show these skills also in the solution of a problem.
  *              
  *              There could be some minor improvements on the code but i think this is the cleanest and more understandable code, 
- *              so i choosed it.
+ *              so i choosed it as final version.
  * 
  * File:        Program.cs
  * 

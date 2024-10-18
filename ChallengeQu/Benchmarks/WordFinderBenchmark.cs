@@ -83,7 +83,7 @@ public class WordFinderBenchmark
         return randomWord;
     }
 
-    // WordFinder Version 1 - Initial Implementation
+    // WordFinder Version 1 - Initial Implementation with linear search and for's
     [Benchmark]
     public void WordFinder()
     {
@@ -92,6 +92,7 @@ public class WordFinderBenchmark
     }
 
     // WordFinder Version 2 - Optimized Implementation
+    // using built-in ".contains" method that is the fastest for search
     [Benchmark]
     public void WordFinderV1()
     {
@@ -99,7 +100,8 @@ public class WordFinderBenchmark
         var result = wordFinder.Find(_wordStream);
     }
 
-    // WordFinder Version 3 - Parallelized Implementation
+    // WordFinder Version 2 - Optimized Implementation
+    // using built-in ".contains" method that is the fastest for search 
     [Benchmark]
     public void WordFinderV2()
     {
@@ -107,7 +109,9 @@ public class WordFinderBenchmark
         var result = wordFinder.Find(_wordStream);
     }
 
-    // WordFinder Version 3 - Parallelized Implementation
+    // WordFinder Version 3 - Refactored version using SOLID principles
+    // adding the StringMatrix class for separation of concerns, and
+    // reusability.
     [Benchmark]
     public void WordFinderV3()
     {
@@ -115,7 +119,8 @@ public class WordFinderBenchmark
         var result = wordFinder.Find(_wordStream);
     }
 
-    // WordFinder Version 3 - Parallelized Implementation
+    // WordFinder Version 4 - Refactored code to use the new class
+    // Matrix that is a generalization to use any data type not just text
     [Benchmark]
     public void WordFinderV4()
     {
@@ -123,7 +128,16 @@ public class WordFinderBenchmark
         var result = wordFinder.Find(_wordStream);
     }
 
-    // WordFinder Version 6 - Parallelized Implementation
+    // WordFinder Version 5 - Refactor to reduce time with paralelization
+    [Benchmark]
+    public void WordFinderV5()
+    {
+        var wordFinder = new WordFinderV5(_matrix);
+        var result = wordFinder.Find(_wordStream);
+    }
+
+    // WordFinder Version 6 - First version but refactored to use paralelization
+    // to check if there is any advantage with those changes (it does not help)
     [Benchmark]
     public void WordFinderV6()
     {
