@@ -1,12 +1,12 @@
 ﻿using System;
 namespace ChallengeQu;
 
-public class WordFinder3
+public class WordFinderV3
 {
     private readonly StringMatrix StringMatrix;
 
 
-    public WordFinder3(IEnumerable<string> matrix)
+    public WordFinderV3(IEnumerable<string> matrix)
     {
         StringMatrix = new StringMatrix(matrix);
     }
@@ -17,7 +17,7 @@ public class WordFinder3
 
     private IEnumerable<string> FindTopTen(IEnumerable<string> wordstream)
     {
-        return StringMatrix.FindAppeareances(wordstream).OrderByDescending(x => x.Value).Take(10).Select(x => x.Key);
+        return StringMatrix.FindMatches(wordstream).OrderByDescending(x => x.Value).Take(10).Select(x => x.Key);
     }
 }
 

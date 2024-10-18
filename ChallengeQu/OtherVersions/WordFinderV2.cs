@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class WordFinder2
+public class WordFinderV2
 {
     private readonly List<string> _horizontalLines;
     private readonly List<string> _verticalLines;
@@ -13,7 +13,7 @@ public class WordFinder2
     /// Constructor that receives a list of strings as the matrix.
     /// </summary>
     /// <param name="matrix">The matrix to search within.</param>
-    public WordFinder2(IEnumerable<string> matrix)
+    public WordFinderV2(IEnumerable<string> matrix)
     {
         var matrixList = matrix.ToList();
         _rows = matrixList.Count;

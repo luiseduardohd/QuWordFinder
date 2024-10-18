@@ -8,6 +8,8 @@ using System.Linq;
 /// </summary>
 public class StringMatrix
 {
+    #region Private Properties
+
     /// <summary>
     /// Stores the horizontal rows of the matrix.
     /// </summary>
@@ -28,6 +30,10 @@ public class StringMatrix
     /// </summary>
     public readonly int columnsCount;
 
+    #endregion
+
+    #region Constructor
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringMatrix"/> class.
     /// Preprocesses the matrix into horizontal and vertical lines.
@@ -37,30 +43,29 @@ public class StringMatrix
     {
         var matrixList = matrix.ToList();
         rowsCount = matrixList.Count;
-        columnsCount = matrixList[0].Length;
+        columnsCount = matrixList.Count > 0 ?  matrixList[0].Length:0;
 
         // Store the rows
         Rows = matrixList;
 
         // Preprocess the columns
-        Columns = new List<string>();
-        for (int col = 0; col < columnsCount; col++)
-        {
-            char[] verticalWord = new char[rowsCount];
-            for (int row = 0; row < rowsCount; row++)
-            {
-                verticalWord[row] = matrixList[row][col];
-            }
-            ((List<string>)Columns).Add(new string(verticalWord));
-        }
+        Columns = GetColumnsFromMatrixList(matrixList);
+
+        // In here the matrix memory can be discarded by the gc,
+        // so the spatial complexity in this point is constant O(1)
+        // where space = 2 *  rows * columns aprox
     }
+
+    #endregion
+
+    #region Public Methods
 
     /// <summary>
     /// Finds the number of appearances of words from the wordstream in the matrix (both horizontally and vertically).
     /// </summary>
     /// <param name="wordstream">A stream of words to search for in the matrix.</param>
     /// <returns>A dictionary where keys are words found in the matrix and values are their counts.</returns>
-    public Dictionary<string, int> FindMatches(IEnumerable<string> wordstream)
+    public virtual Dictionary<string, int> FindMatches(IEnumerable<string> wordstream)
     {
         var wordSet = new HashSet<string>(wordstream);
         var wordCount = new Dictionary<string, int>();
@@ -79,8 +84,28 @@ public class StringMatrix
             }
         }
 
-        // Return the dictionary of word counts
+        // Return the new dictionary of word counts
         return wordCount;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private List<string> GetColumnsFromMatrixList(List<string> matrixList)
+    {
+        var columns = new List<string>();
+
+        for (int col = 0; col < columnsCount; col++)
+        {
+            char[] verticalWord = new char[rowsCount];
+            for (int row = 0; row < rowsCount; row++)
+            {
+                verticalWord[row] = matrixList[row][col];
+            }
+            ((List<string>)columns).Add(new string(verticalWord));
+        }
+        return columns;
     }
 
     /// <summary>
@@ -100,4 +125,6 @@ public class StringMatrix
         }
         return false;
     }
+
+    #endregion
 }

@@ -9,11 +9,18 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageReference Include="NUnit" Version="4.2.2" />
+    <PackageReference Include="NUnitLite" Version="4.2.2" />
+    <PackageReference Include="Moq" Version="4.20.72" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="OtherVersions\" />
+    <None Remove="Benchmarks\" />
+    <None Remove="UnitTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="OtherVersions\" />
+    <Folder Include="Benchmarks\" />
+    <Folder Include="UnitTests\" />
   </ItemGroup>
 </Project>

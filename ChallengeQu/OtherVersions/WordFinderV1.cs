@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class WordFinder1
+public class WordFinderV1
 {
     private readonly char[,] _matrix;
     private readonly int _rows;
     private readonly int _cols;
 
     // Constructor that receives a list of strings as the matrix
-    public WordFinder1(IEnumerable<string> matrix)
+    public WordFinderV1(IEnumerable<string> matrix)
     {
         // Convert matrix into a 2D character array for easy searching
         var matrixList = matrix.ToList();

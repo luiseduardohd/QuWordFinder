@@ -95,7 +95,7 @@ public class WordFinderBenchmark
     [Benchmark]
     public void WordFinderV1()
     {
-        var wordFinder = new WordFinder1(_matrix);
+        var wordFinder = new WordFinderV1(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
 
@@ -103,7 +103,7 @@ public class WordFinderBenchmark
     [Benchmark]
     public void WordFinderV2()
     {
-        var wordFinder = new WordFinder2(_matrix);
+        var wordFinder = new WordFinderV2(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
 
@@ -111,7 +111,7 @@ public class WordFinderBenchmark
     [Benchmark]
     public void WordFinderV3()
     {
-        var wordFinder = new WordFinder3(_matrix);
+        var wordFinder = new WordFinderV3(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
 
