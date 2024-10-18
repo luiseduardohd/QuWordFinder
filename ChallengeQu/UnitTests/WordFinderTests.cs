@@ -14,11 +14,11 @@ namespace ChallengeQu.Tests
         [SetUp]
         public void SetUp()
         {
-            // Mock the StringMatrix 
+            // Mock the StringMatrix to isolate WordFinder
             _mockStringMatrix = new Mock<StringMatrix>(new List<string>());
 
             // Mock the WordFinder
-            _wordFinder = new WordFinder(new List<string>());
+            _wordFinder = new WordFinder(_mockStringMatrix.Object);
         }
 
         [Test]
@@ -39,14 +39,14 @@ namespace ChallengeQu.Tests
 
             // Mock the behavior of FindMatches in StringMatrix
             _mockStringMatrix
-                .Setup(m => m.FindMatches(wordStream))
+                .Setup(m => m.FindMatches(It.IsAny<IEnumerable<string>>()))
                 .Returns(wordCounts);
 
             // Act
             var result = _wordFinder.Find(wordStream).ToList();
 
             // Assert
-            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.That(result.Count, Is.EqualTo(5)); // 5 words expected
             Assert.That(result[0], Is.EqualTo("cat"));
             Assert.That(result[1], Is.EqualTo("dog"));
             Assert.That(result[2], Is.EqualTo("rat"));
@@ -65,20 +65,20 @@ namespace ChallengeQu.Tests
             {
                 { "cat", 10 }, { "dog", 9 }, { "rat", 8 }, { "ice", 7 }, { "fox", 6 },
                 { "bat", 5 }, { "cow", 4 }, { "ant", 3 }, { "owl", 2 }, { "eel", 1 },
-                { "bee", 0 }
+                { "bee", 0 }  // bee should not appear in the top 10
             };
 
             // Mock the behavior of FindMatches in StringMatrix
             _mockStringMatrix
-                .Setup(m => m.FindMatches(wordStream))
+                .Setup(m => m.FindMatches(It.IsAny<IEnumerable<string>>()))
                 .Returns(wordCounts);
 
             // Act
             var result = _wordFinder.Find(wordStream).ToList();
 
             // Assert
-            Assert.That(result.Count, Is.EqualTo(10));
-            Assert.That(result.Contains("bee"), Is.False); // 'bee' should not be in the top 10.
+            Assert.That(result.Count, Is.EqualTo(10));  // 10 words expected
+            Assert.That(result.Contains("bee"), Is.False);  // bee should not be in the top 10
         }
 
         [Test]
@@ -92,14 +92,14 @@ namespace ChallengeQu.Tests
 
             // Mock the behavior of FindMatches in StringMatrix
             _mockStringMatrix
-                .Setup(m => m.FindMatches(wordStream))
+                .Setup(m => m.FindMatches(It.IsAny<IEnumerable<string>>()))
                 .Returns(wordCounts);
 
             // Act
             var result = _wordFinder.Find(wordStream).ToList();
 
             // Assert
-            Assert.That(result.Count, Is.EqualTo(0));
+            Assert.That(result.Count, Is.EqualTo(0)); // No words should be found
         }
 
         [Test]
@@ -113,14 +113,14 @@ namespace ChallengeQu.Tests
 
             // Mock the behavior of FindMatches in StringMatrix
             _mockStringMatrix
-                .Setup(m => m.FindMatches(wordStream))
+                .Setup(m => m.FindMatches(It.IsAny<IEnumerable<string>>()))
                 .Returns(wordCounts);
 
             // Act
             var result = _wordFinder.Find(wordStream).ToList();
 
             // Assert
-            Assert.That(result.Count, Is.EqualTo(0)); // No matches should be found.
+            Assert.That(result.Count, Is.EqualTo(0)); // No matches should be found
         }
 
         [Test]
@@ -139,14 +139,14 @@ namespace ChallengeQu.Tests
 
             // Mock the behavior of FindMatches in StringMatrix
             _mockStringMatrix
-                .Setup(m => m.FindMatches(wordStream))
+                .Setup(m => m.FindMatches(It.IsAny<IEnumerable<string>>()))
                 .Returns(wordCounts);
 
             // Act
             var result = _wordFinder.Find(wordStream).ToList();
 
             // Assert
-            Assert.That(result.Count, Is.EqualTo(3)); // Only 3 words exist, so return those 3.
+            Assert.That(result.Count, Is.EqualTo(3)); // Only 3 words exist
             Assert.That(result[0], Is.EqualTo("cat"));
             Assert.That(result[1], Is.EqualTo("dog"));
             Assert.That(result[2], Is.EqualTo("rat"));

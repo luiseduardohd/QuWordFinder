@@ -18,6 +18,15 @@ public class WordFinder
     /// <summary>
     /// Initializes a new instance of the <see cref="WordFinder"/> class.
     /// </summary>
+    /// <param name="stringMatrix">The stringMatrix as an StringMatrix object</param>
+    public WordFinder(StringMatrix stringMatrix)
+    {
+        StringMatrix = stringMatrix;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WordFinder"/> class.
+    /// </summary>
     /// <param name="matrix">The matrix as an IEnumerable of strings where each string represents a row.</param>
     public WordFinder(IEnumerable<string> matrix)
     {
