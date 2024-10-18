@@ -92,6 +92,13 @@ public class StringMatrix
 
     #region Private Methods
 
+    /// <summary>
+    /// Extracts and returns the vertical columns from a list of strings representing the rows of a matrix.
+    /// Each string in the input list represents a row, and this method processes the matrix to extract the columns
+    /// as a list of strings, where each string corresponds to a column.
+    /// </summary>
+    /// <param name="matrixList">A list of strings where each string represents a row of the matrix.</param>
+    /// <returns>A list of strings where each string represents a column of the matrix.</returns>
     private List<string> GetColumnsFromMatrixList(List<string> matrixList)
     {
         var columns = new List<string>();
@@ -118,7 +125,9 @@ public class StringMatrix
     {
         foreach (var line in lines)
         {
-            if (line.Contains(word)) // Fast string search using built-in method
+            // Here we have the core of the search,
+            // I'm using the default built-in method because of speed.
+            if (line.Contains(word))
             {
                 return true;
             }
