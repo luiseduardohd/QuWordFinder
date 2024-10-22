@@ -45,15 +45,13 @@ public class StringMatrix
         rowsCount = matrixList.Count;
         columnsCount = matrixList.Count > 0 ?  matrixList[0].Length:0;
 
-        // Store the rows
         Rows = matrixList;
-
-        // Preprocess the columns
-        Columns = GetColumnsFromMatrixList(matrixList);
+        Columns = GetColumnsFromMatrixList(matrixList, rowsCount, columnsCount);
 
         // In here the matrix memory can be discarded by the gc,
         // so the spatial complexity in this point is constant O(1)
         // where space = 2 *  rows * columns aprox
+        // time complexity O(n^2)
     }
 
     #endregion
@@ -63,29 +61,29 @@ public class StringMatrix
     /// <summary>
     /// Finds the number of appearances of words from the wordstream in the matrix (both horizontally and vertically).
     /// </summary>
-    /// <param name="wordstream">A stream of words to search for in the matrix.</param>
+    /// <param name="words">A stream of words to search for in the matrix.</param>
     /// <returns>A dictionary where keys are words found in the matrix and values are their counts.</returns>
-    public virtual Dictionary<string, int> FindMatches(IEnumerable<string> wordstream)
+    public virtual Dictionary<string, int> FindMatches(IEnumerable<string> words)
     {
-        var wordSet = new HashSet<string>(wordstream);
-        var wordCount = new Dictionary<string, int>();
+        //We filter repeated words
+        var wordSet = FilterWords(words);
+        var result = new Dictionary<string, int>();
 
-        // For each word, search in both the horizontal and vertical lines
         foreach (var word in wordSet)
         {
-            bool found = FindInLines(word, Rows) || FindInLines(word, Columns);
+            bool isInLine = FindInLines(word, Rows) || FindInLines(word, Columns);
 
-            if (found)
+            if (isInLine)
             {
-                if (!wordCount.ContainsKey(word))
+                if (!result.ContainsKey(word))
                 {
-                    wordCount[word] = 1;
+                    result[word] = 1;
                 }
             }
         }
 
         // Return the new dictionary of word counts
-        return wordCount;
+        return result;
     }
 
     #endregion
@@ -99,9 +97,9 @@ public class StringMatrix
     /// </summary>
     /// <param name="matrixList">A list of strings where each string represents a row of the matrix.</param>
     /// <returns>A list of strings where each string represents a column of the matrix.</returns>
-    private List<string> GetColumnsFromMatrixList(List<string> matrixList)
+    private List<string> GetColumnsFromMatrixList(List<string> matrixList, int rowsCount, int columnsCount)
     {
-        var columns = new List<string>();
+        var resultColumns = new List<string>();
 
         for (int col = 0; col < columnsCount; col++)
         {
@@ -110,9 +108,9 @@ public class StringMatrix
             {
                 verticalWord[row] = matrixList[row][col];
             }
-            ((List<string>)columns).Add(new string(verticalWord));
+            ((List<string>)resultColumns).Add(new string(verticalWord));
         }
-        return columns;
+        return resultColumns;
     }
 
     /// <summary>
@@ -133,6 +131,19 @@ public class StringMatrix
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Filters the input collection of words, returning only words that are 64 characters or fewer.
+    /// The filtered words are stored in a HashSet to ensure uniqueness.
+    /// </summary>
+    /// <param name="words">The collection of words to filter.</param>
+    /// <returns>A HashSet containing the filtered words, with words longer than 64 characters excluded.</returns>
+    private HashSet<string> FilterWords(IEnumerable<string> words)
+    {
+        words = words.Where(x => x.Count() <= 64);
+        HashSet<string> result = new HashSet<string>(words);
+        return result;
     }
 
     #endregion
