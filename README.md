@@ -73,3 +73,14 @@ Version:     1.0
 Modification History:
   - Version 1.0: Created by Luis Hernandez on October 18, 2024
 
+
+| Method       | Mean       | Error     | StdDev    |
+|------------- |-----------:|----------:|----------:|
+| WordFinder   |   2.313 ms | 0.0146 ms | 0.0114 ms |
+| WordFinderV1 |   6.173 ms | 0.0477 ms | 0.0398 ms |
+| WordFinderV2 |   1.140 ms | 0.0078 ms | 0.0069 ms |
+| WordFinderV3 |   2.359 ms | 0.0244 ms | 0.0191 ms |
+| WordFinderV4 | 484.651 ms | 2.6134 ms | 2.0404 ms |
+| WordFinderV5 | 181.474 ms | 3.5203 ms | 4.3232 ms |
+| WordFinderV6 |  18.606 ms | 0.4624 ms | 1.2659 ms |
+| WordFinderV7 |  17.420 ms | 0.3470 ms | 0.6767 ms |
