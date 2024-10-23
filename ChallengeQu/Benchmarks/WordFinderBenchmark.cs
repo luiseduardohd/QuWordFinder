@@ -144,4 +144,13 @@ public class WordFinderBenchmark
         var wordFinder = new WordFinderV6(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
+
+    // WordFinder Version 6 - First version but refactored to use paralelization
+    // to check if there is any advantage with those changes (it does not help)
+    [Benchmark]
+    public void WordFinderV7()
+    {
+        var wordFinder = new WordFinderV7(_matrix);
+        var result = wordFinder.Find(_wordStream);
+    }
 }
