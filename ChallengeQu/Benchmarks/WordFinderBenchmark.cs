@@ -118,7 +118,7 @@ public class WordFinderBenchmark
         var wordFinder = new WordFinderV3(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
-
+    /*
     // WordFinder Version 4 - Refactored code to use the new class
     // Matrix that is a generalization to use any data type not just text
     [Benchmark]
@@ -144,9 +144,10 @@ public class WordFinderBenchmark
         var wordFinder = new WordFinderV6(_matrix);
         var result = wordFinder.Find(_wordStream);
     }
-
-    // WordFinder Version 6 - First version but refactored to use paralelization
-    // to check if there is any advantage with those changes (it does not help)
+    */
+    // WordFinder Version 6 - Word Finder version but
+    // trying to optimize for a long number of strings,
+    // getting hashes of all the possible strings on the matrix and comparing.
     [Benchmark]
     public void WordFinderV7()
     {
