@@ -1,8 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-
-
-/** 
+﻿/** 
  * 
  * README:      I created this solution with this objective on mind:
  *              "The objective of this challenge is not necessarily just to solve the problem 
